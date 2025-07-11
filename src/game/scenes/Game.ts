@@ -1,5 +1,6 @@
-import { Scene, GameObjects } from "phaser";
+import { Scene, GameObjects, Cameras } from "phaser";
 import { demonImages, crosshairCursor } from "../gameData";
+import { Hud } from "../Hud";
 
 const TWEENEASES = [
   "Linear",
@@ -16,14 +17,12 @@ const TWEENEASES = [
 ];
 
 export class Game extends Scene {
-  camera: Phaser.Cameras.Scene2D.Camera;
-  demons: Phaser.GameObjects.Sprite[] = [];
-  bg: Phaser.GameObjects.Image;
+  camera: Cameras.Scene2D.Camera;
+  demons: GameObjects.Sprite[] = [];
+  bg: GameObjects.Image;
   worldWidth: number;
-  camMinX: number;
-  camMaxX: number;
-  camMinY: number;
-  camMaxY: number;
+  hud: Hud;
+  hudHeight: number;
 
   constructor() {
     super("Game");
@@ -34,7 +33,7 @@ export class Game extends Scene {
     const camMinX = cam.scrollX + 50;
     const camMaxX = cam.scrollX + cam.width - 100;
     const camMinY = cam.scrollY + 50;
-    const camMaxY = cam.scrollY + cam.height - 100;
+    const camMaxY = cam.scrollY + cam.height - 100 - this.hudHeight;
 
     return {
       x: Phaser.Math.Between(camMinX, camMaxX),
@@ -90,6 +89,9 @@ export class Game extends Scene {
     this.time.delayedCall(300, () => {
       demon.clearTint();
       demon.destroy();
+      this.hud.incrementScore();
+      this.demons = this.demons.filter((d) => d !== demon);
+      console.log("Demon destroyed, remaining:", this.demons.length);
       //this.spawnDemon(this);
     });
   }
@@ -110,9 +112,13 @@ export class Game extends Scene {
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, this.worldWidth, this.bg.height);
 
-    this.spawnDemon(this);
+    this.hud = new Hud(this, 0, this.scale.height - 90);
+    this.hud.render();
+    this.hudHeight = this.hud.getHudHeight();
 
     this.input.setDefaultCursor(crosshairCursor);
+
+    this.spawnDemon(this);
 
     this.time.addEvent({
       delay: Phaser.Math.Between(2000, 5000),

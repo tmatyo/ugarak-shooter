@@ -44,6 +44,7 @@ export class Preloader extends Scene
         this.load.image('aboutBackground', 'src/assets/images/plot.jpg');
         this.load.image('controlsBackground', 'src/assets/images/ovladanie_page.jpg');
         this.load.image('scoreBackground', 'src/assets/images/vysledky.jpg');
+        this.load.image('hudBackground', 'src/assets/images/panel_jo.jpg');
         
         this.load.image('menuButton', 'src/assets/images/menu.png');
         this.load.image('playButton', 'src/assets/images/hraj_gomb.png');
