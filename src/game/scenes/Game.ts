@@ -87,14 +87,17 @@ export class Game extends Scene {
   //   }
 
   onShot(demon: GameObjects.Sprite) {
-    demon.setTint(0xff0000);
-    this.time.delayedCall(300, () => {
-      demon.clearTint();
-      demon.destroy();
-      this.hud.incrementScore();
-      this.demons = this.demons.filter((d) => d !== demon);
-      console.log("Demon destroyed, remaining:", this.demons.length);
-    });
+    const magazineIsEmpty = this.gun.isMagazineEmpty();
+    if (!magazineIsEmpty) {
+      demon.setTint(0xff0000);
+      this.time.delayedCall(300, () => {
+        demon.clearTint();
+        demon.destroy();
+        this.hud.incrementScore();
+        this.demons = this.demons.filter((d) => d !== demon);
+        console.log("Demon destroyed, remaining:", this.demons.length);
+      });
+    }
   }
 
   addMovement(demon: GameObjects.Sprite) {

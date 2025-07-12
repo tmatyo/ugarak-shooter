@@ -26,4 +26,12 @@ export class Gun extends GameObjects.Container {
             console.warn("CLICK!", "No bullets left to shoot!");
         }
     }
+
+    public getNumberOfBullets(): number {
+        return this.numberOfBullets;
+    }
+
+    public isMagazineEmpty(): boolean {
+        return this.numberOfBullets <= 0;
+    }
 }
