@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import superPeanutFont from '../../assets/fonts/SuperPeanut.ttf';
+import superBrigadeFont from '../../assets/fonts/SuperBrigadeCondensed.otf';
 
 export class Preloader extends Scene
 {
@@ -31,6 +32,7 @@ export class Preloader extends Scene
     preload ()
     {
         this.load.font('super-peanut', superPeanutFont);
+        this.load.font('super-brigade', superBrigadeFont);
         
         this.load.image('demon1', 'src/assets/images/amo1.png');
         this.load.image('demon2', 'src/assets/images/dagi1.png');

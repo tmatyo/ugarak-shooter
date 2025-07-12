@@ -1,6 +1,7 @@
 import { Scene, GameObjects, Cameras } from "phaser";
 import { demonImages, crosshairCursor } from "../gameData";
-import { Hud } from "../Hud";
+import { Hud } from "../gameObjects/Hud";
+import { Fps } from "../gameObjects/Fps";
 
 const TWEENEASES = [
   "Linear",
@@ -23,6 +24,7 @@ export class Game extends Scene {
   worldWidth: number;
   hud: Hud;
   hudHeight: number;
+  fps: Fps;
 
   constructor() {
     super("Game");
@@ -112,6 +114,8 @@ export class Game extends Scene {
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, this.worldWidth, this.bg.height);
 
+    this.fps = new Fps(this);
+
     this.hud = new Hud(this, 0, this.scale.height - 90);
     this.hud.render();
     this.hudHeight = this.hud.getHudHeight();
@@ -127,7 +131,8 @@ export class Game extends Scene {
     });
   }
 
-  update() {
+  update(delta: number) {
+    this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
     if (this.camera.scrollX < this.worldWidth - this.scale.width) {
       this.camera.scrollX += 2;
     } else {

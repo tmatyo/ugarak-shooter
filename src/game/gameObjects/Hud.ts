@@ -36,7 +36,7 @@ export class Hud extends GameObjects.Container {
       .setOrigin(0, 0)
       .setScrollFactor(0);
     this.add(this.scoreText);
-    this.background.removeFromDisplayList(); 
+    this.scoreText.removeFromDisplayList(); 
   }
 
   public render() {
