@@ -1,7 +1,6 @@
-import { Scene, GameObjects, Cameras } from "phaser";
+import { Scene, GameObjects, Cameras, Input } from "phaser";
 import { demonImages, crosshairCursor } from "../gameData";
-import { Hud } from "../gameObjects/Hud";
-import { Fps } from "../gameObjects/Fps";
+import { Hud, Fps, Gun } from "../gameObjects";
 
 const TWEENEASES = [
   "Linear",
@@ -23,8 +22,9 @@ export class Game extends Scene {
   bg: GameObjects.Image;
   worldWidth: number;
   hud: Hud;
-  hudHeight: number;
+  hudHeight: number = 0;
   fps: Fps;
+  gun: Gun;
 
   constructor() {
     super("Game");
@@ -94,7 +94,6 @@ export class Game extends Scene {
       this.hud.incrementScore();
       this.demons = this.demons.filter((d) => d !== demon);
       console.log("Demon destroyed, remaining:", this.demons.length);
-      //this.spawnDemon(this);
     });
   }
 
@@ -120,7 +119,19 @@ export class Game extends Scene {
     this.hud.render();
     this.hudHeight = this.hud.getHudHeight();
 
+    this.gun = new Gun(this, this.hud);
+
     this.input.setDefaultCursor(crosshairCursor);
+    this.input.mouse?.disableContextMenu();
+    this.input.on("pointerdown", (pointer: Input.Pointer) => {
+      if (pointer.leftButtonDown()) {
+        this.gun.shoot();
+      }
+
+      if (pointer.rightButtonDown()) {
+        this.gun.reload();
+      }
+    });
 
     this.spawnDemon(this);
 

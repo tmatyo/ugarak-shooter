@@ -1,0 +1,29 @@
+import { Scene, GameObjects } from "phaser";
+import { Hud } from "./Hud";
+
+export class Gun extends GameObjects.Container {
+    constructor(scene: Scene, hud: Hud) {
+        super(scene, 0, 0);
+        this.scene.add.existing(this);
+        this.hud = hud;
+        this.hud.renderBullets(this.magazineSize);
+    }
+
+    private hud: Hud;
+    private magazineSize: number = 15;
+    private numberOfBullets: number = this.magazineSize;
+
+    public reload() {
+        this.numberOfBullets = this.magazineSize;
+        this.hud.reloadBullets();
+    }
+    
+    public shoot() {
+        if (this.numberOfBullets > 0) {
+            this.numberOfBullets--;
+            this.hud.decrementBullets(this.numberOfBullets);
+        } else {
+            console.warn("CLICK!", "No bullets left to shoot!");
+        }
+    }
+}

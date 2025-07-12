@@ -11,6 +11,7 @@ export class Hud extends GameObjects.Container {
   private background: GameObjects.Image;
   private hudHeight: number = 90;
   private scoreTextSize: number = 50;
+  private bullets: GameObjects.Image[] = [];
 
   private parseScoreText = () => `Score: ${this.score}`;
 
@@ -21,22 +22,27 @@ export class Hud extends GameObjects.Container {
       .setScrollFactor(0)
       .setDisplaySize(this.scene.cameras.main.width, this.hudHeight);
     this.add(this.background);
-    this.background.removeFromDisplayList(); 
+    this.background.removeFromDisplayList();
   }
 
   private createScoreText() {
     this.scoreText = this.scene.add
-      .text(30, (this.hudHeight - this.scoreTextSize) / 2, this.parseScoreText(), {
-        fontSize: `${this.scoreTextSize}px`,
-        color: "#ffffff",
-        fontFamily: "super-peanut",
-        stroke: "#000000",
-        strokeThickness: 10,
-      })
+      .text(
+        30,
+        (this.hudHeight - this.scoreTextSize) / 2,
+        this.parseScoreText(),
+        {
+          fontSize: `${this.scoreTextSize}px`,
+          color: "#ffffff",
+          fontFamily: "super-peanut",
+          stroke: "#000000",
+          strokeThickness: 10,
+        }
+      )
       .setOrigin(0, 0)
       .setScrollFactor(0);
     this.add(this.scoreText);
-    this.scoreText.removeFromDisplayList(); 
+    this.scoreText.removeFromDisplayList();
   }
 
   public render() {
@@ -60,5 +66,30 @@ export class Hud extends GameObjects.Container {
   public resetScore() {
     this.score = 0;
     this.scoreText.setText(this.parseScoreText());
+  }
+
+  public renderBullets(magazineSize: number) {
+    this.bullets = [];
+    for (let i = 0; i < magazineSize; i++) {
+      const bullet = this.scene.add
+        .image(
+          (this.scoreText.x * 2) + this.scoreText.width + (30 * i),
+          (this.hudHeight - this.scoreTextSize) / 2,
+          "bullet"
+        )
+      .setOrigin(0, 0)
+      .setScrollFactor(0);
+      this.bullets.push(bullet);
+      this.add(bullet);
+      bullet.removeFromDisplayList();
+    }
+  }
+
+  public decrementBullets(numberOfBullets: number) {
+    this.bullets[numberOfBullets].setVisible(false);
+  }
+
+  public reloadBullets() {
+    this.bullets.forEach((bullet) => bullet.setVisible(true));
   }
 }

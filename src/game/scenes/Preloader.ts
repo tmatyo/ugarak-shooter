@@ -37,6 +37,7 @@ export class Preloader extends Scene
         this.load.image('demon1', 'src/assets/images/amo1.png');
         this.load.image('demon2', 'src/assets/images/dagi1.png');
         this.load.image('demon3', 'src/assets/images/dani1.png');
+        this.load.image('bullet', 'src/assets/images/bullet1.png');
 
         this.load.image('cursor', 'src/assets/images/cursor2v2.png');
         
