@@ -145,7 +145,7 @@ export class Game extends Scene {
     });
   }
 
-  update(delta: number) {
+  update(time: number, delta: number) {
     this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
     if (this.camera.scrollX < this.worldWidth - this.scale.width) {
       this.camera.scrollX += 2;
