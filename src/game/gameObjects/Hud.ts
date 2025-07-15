@@ -1,17 +1,17 @@
 import { Scene, GameObjects } from "phaser";
 
 export class Hud extends GameObjects.Container {
-  constructor(scene: Scene, x: number = 0, y: number = 0) {
-    super(scene, x, y);
-    this.scene.add.existing(this);
-  }
-
   private score: number = 0;
   private scoreText: GameObjects.Text;
   private background: GameObjects.Image;
   private hudHeight: number = 90;
   private scoreTextSize: number = 50;
   private bullets: GameObjects.Image[] = [];
+
+  constructor(scene: Scene, x: number = 0, y: number = 0) {
+    super(scene, x, y);
+    this.scene.add.existing(this);
+  }
 
   private parseScoreText = () => `Score: ${this.score}`;
 
@@ -73,12 +73,12 @@ export class Hud extends GameObjects.Container {
     for (let i = 0; i < magazineSize; i++) {
       const bullet = this.scene.add
         .image(
-          (this.scoreText.x * 2) + this.scoreText.width + (30 * i),
+          this.scoreText.x * 2 + this.scoreText.width + 30 * i,
           (this.hudHeight - this.scoreTextSize) / 2,
           "bullet"
         )
-      .setOrigin(0, 0)
-      .setScrollFactor(0);
+        .setOrigin(0, 0)
+        .setScrollFactor(0);
       this.bullets.push(bullet);
       this.add(bullet);
       bullet.removeFromDisplayList();

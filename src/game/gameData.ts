@@ -45,4 +45,18 @@ export const controlsHint: GameTextType = {
 };
 
 export const demonImages = ["demon1", "demon2", "demon3"];
-export const crosshairCursor = "url(src/assets/images/cursor2v2.png), crosshair";
+export const tweenEases = [
+  "Linear",
+  "Sine",
+  "Quad",
+  "Cubic",
+  "Quart",
+  "Quint",
+  "Expo",
+  "Circ",
+  "Back",
+  "Elastic",
+  "Bounce",
+];
+export const crosshairCursor =
+  "url(src/assets/images/cursor2v2.png), crosshair";

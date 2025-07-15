@@ -1,5 +1,6 @@
-import { Hud } from "../gameObjects/Hud";
-import { Fps } from "../gameObjects/Fps";
-import { Gun } from "../gameObjects/Gun";
+import { Hud } from "./Hud";
+import { Fps } from "./Fps";
+import { Gun } from "./Gun";
+import { Demon } from "./Demon";
 
-export { Hud, Fps, Gun };
+export { Hud, Fps, Gun, Demon };

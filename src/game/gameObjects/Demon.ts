@@ -1,0 +1,115 @@
+import { GameObjects, Scene } from "phaser";
+import { demonImages, tweenEases } from "../gameData";
+import { Hud, Gun } from "../gameObjects";
+
+type DemonPropsType = {
+  scene: Scene;
+  hudHeight?: number;
+  x?: number;
+  y?: number;
+  hud: Hud;
+  gun: Gun;
+};
+
+export class Demon extends GameObjects.Container {
+  private hudHeight: number;
+  private demons: GameObjects.Sprite[] = [];
+  private hud: Hud;
+  private gun: Gun;
+
+  constructor({
+    scene,
+    hudHeight = 100,
+    x = 0,
+    y = 0,
+    hud,
+    gun,
+  }: DemonPropsType) {
+    super(scene, x, y);
+    this.hudHeight = hudHeight;
+    this.hud = hud;
+    this.gun = gun;
+  }
+
+  private newCoordinatesInsideCamera(scene: Scene) {
+    const cam = scene.cameras.main;
+    const camMinX = cam.scrollX + 50;
+    const camMaxX = cam.scrollX + cam.width - 100;
+    const camMinY = cam.scrollY + 50;
+    const camMaxY = cam.scrollY + cam.height - 100 - this.hudHeight;
+
+    return {
+      x: Phaser.Math.Between(camMinX, camMaxX),
+      y: Phaser.Math.Between(camMinY, camMaxY),
+    };
+  }
+
+  private onShot(demon: GameObjects.Sprite) {
+    const magazineIsEmpty = this.gun.isMagazineEmpty();
+    if (!magazineIsEmpty) {
+      demon.setTint(0xff0000);
+      this.scene.time.delayedCall(300, () => {
+        demon.clearTint();
+        demon.destroy();
+        this.hud.incrementScore();
+        this.demons = this.demons.filter((d) => d !== demon);
+        console.log("Demon destroyed, remaining:", this.demons.length);
+      });
+    }
+  }
+
+  public spawn(scene: Scene) {
+    const startPoint = this.newCoordinatesInsideCamera(scene);
+    const endPoint = this.newCoordinatesInsideCamera(scene);
+
+    const demon = scene.add
+      .sprite(
+        startPoint.x,
+        startPoint.y,
+        demonImages[Phaser.Math.Between(0, demonImages.length - 1)]
+      )
+      .setOrigin(0.5)
+      .setScale(Phaser.Math.Between(0.5, 1.5))
+      .setInteractive()
+      .on("pointerdown", () => this.onShot(demon))
+      .on("tap", () => this.onShot(demon));
+
+    scene.physics.add.existing(demon);
+    scene.tweens.add({
+      targets: demon,
+      x: endPoint.x,
+      y: endPoint.y,
+      duration: Phaser.Math.Between(1000, 5000),
+      ease: tweenEases[Phaser.Math.Between(0, tweenEases.length - 1)],
+      repeat: -1,
+      yoyo: false,
+    });
+
+    this.demons.push(demon);
+    //demon.removeFromDisplayList();
+  }
+
+  public getDemons(): GameObjects.Sprite[] {
+    return this.demons;
+  }
+
+  //   private addMovement(demon: GameObjects.Sprite) {
+  //     const veloX = Phaser.Math.Between(-500, 500);
+  //     const veloY = Phaser.Math.Between(-500, 500);
+  //     console.log(`Demon velocity: ${veloX}, ${veloY}`);
+  //     const vector = this.scene.physics.velocityFromAngle(veloX, veloY);
+  //     (demon.body as Phaser.Physics.Arcade.Body).setVelocity(vector.x, vector.y);
+  //   }
+
+  //   respawnDemons(scene: Scene, demon: GameObjects.Sprite) {
+  //     if (
+  //       demon.x < 0 ||
+  //       demon.x > scene.cameras.main.width ||
+  //       demon.y < 0 ||
+  //       demon.y > scene.cameras.main.height
+  //     ) {
+  //       const { x, y } = this.newCoordinatesInsideCamera(this);
+  //       demon.setPosition(x, y);
+  //     }
+  //   }
+}
