@@ -31,7 +31,6 @@ export class Game extends Scene {
 
     // hud with game data
     this.hud = new Hud(this, 0, this.scale.height - 90);
-    this.hud.render();
     this.hudHeight = this.hud.getHudHeight();
 
     // setup gun

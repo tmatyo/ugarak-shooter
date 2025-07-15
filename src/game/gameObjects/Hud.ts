@@ -11,6 +11,8 @@ export class Hud extends GameObjects.Container {
   constructor(scene: Scene, x: number = 0, y: number = 0) {
     super(scene, x, y);
     this.scene.add.existing(this);
+    this.createBackground();
+    this.createScoreText();
   }
 
   private parseScoreText = () => `Score: ${this.score}`;
@@ -43,11 +45,6 @@ export class Hud extends GameObjects.Container {
       .setScrollFactor(0);
     this.add(this.scoreText);
     this.scoreText.removeFromDisplayList();
-  }
-
-  public render() {
-    this.createBackground();
-    this.createScoreText();
   }
 
   public getHudHeight(): number {
