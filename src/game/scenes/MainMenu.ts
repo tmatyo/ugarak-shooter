@@ -2,13 +2,19 @@ import { Scene, GameObjects } from "phaser";
 import { copyrightTextStyle, copyrightText } from "../gameData";
 
 export class MainMenu extends Scene {
-
   constructor() {
     super("MainMenu");
   }
 
   create() {
     const { width, height } = this.scale;
+    const sfxHover = this.sound.add("hover");
+
+    this.input.once("pointerdown", () => {
+      if (this.sound.locked) {
+        this.sound.unlock();
+      }
+    });
 
     this.add
       .image(0, 0, "menuBackground")
@@ -25,6 +31,7 @@ export class MainMenu extends Scene {
       })
       .on("pointerover", () => {
         playButton.setPosition(-15, height / 2 - 75);
+        sfxHover.play({volume: 0.5});
       })
       .on("pointerout", () => {
         playButton.setPosition(-30, height / 2 - 75);
@@ -39,12 +46,18 @@ export class MainMenu extends Scene {
       })
       .on("pointerover", () => {
         aboutButton.setPosition(-35, height / 2 + 75);
+        sfxHover.play({volume: 0.5});
       })
       .on("pointerout", () => {
         aboutButton.setPosition(-50, height / 2 + 75);
       });
 
-    const copyright: GameObjects.Text = this.add.text(0, 0, copyrightText, copyrightTextStyle);
+    const copyright: GameObjects.Text = this.add.text(
+      0,
+      0,
+      copyrightText,
+      copyrightTextStyle
+    );
     copyright.setPosition(
       width - copyright.width - 20,
       height - copyright.height - 20

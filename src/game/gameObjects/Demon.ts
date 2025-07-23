@@ -1,5 +1,5 @@
-import { GameObjects, Scene } from "phaser";
-import { demonImages, tweenEases } from "../gameData";
+import { GameObjects, Scene, Sound } from "phaser";
+import { demonImages, tweenEases, demonSounds } from "../gameData";
 import { Hud, Gun } from "../gameObjects";
 
 type DemonPropsType = {
@@ -16,6 +16,7 @@ export class Demon extends GameObjects.Container {
   private demons: GameObjects.Sprite[] = [];
   private hud: Hud;
   private gun: Gun;
+  private sounds: Record<string, Sound.BaseSound> = {};
 
   constructor({
     scene,
@@ -29,6 +30,13 @@ export class Demon extends GameObjects.Container {
     this.hudHeight = hudHeight;
     this.hud = hud;
     this.gun = gun;
+    this.createSounds(scene);
+  }
+
+  private createSounds(scene: Scene) {
+    demonSounds.forEach((sfx) => {
+      this.sounds[sfx] = scene.sound.add(sfx);
+    });
   }
 
   private newCoordinatesInsideCamera(scene: Scene) {
@@ -49,6 +57,9 @@ export class Demon extends GameObjects.Container {
     if (!magazineIsEmpty) {
       demon.setTint(0xff0000);
       this.scene.time.delayedCall(300, () => {
+        this.sounds[
+          demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]
+        ].play({ volume: demon.scale * 0.5 });
         demon.clearTint();
         demon.destroy();
         this.hud.incrementScore();

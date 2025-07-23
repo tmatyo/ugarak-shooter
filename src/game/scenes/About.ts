@@ -12,6 +12,13 @@ export class About extends Scene {
     const { width, height } = this.scale;
     const { padding, textureName, backgroundColor, backgroundOpacity } = plot;
 
+    const sfxHover = this.sound.add("hover");
+    this.input.once("pointerdown", () => {
+      if (this.sound.locked) {
+        this.sound.unlock();
+      }
+    });
+
     this.add
       .image(0, 0, "aboutBackground")
       .setOrigin(0, 0)
@@ -54,6 +61,7 @@ export class About extends Scene {
       })
       .on("pointerover", () => {
         backToMenuButton.setDisplaySize(110, 55);
+        sfxHover.play({volume: 0.5});
       })
       .on("pointerout", () => {
         backToMenuButton.setDisplaySize(100, 50);
@@ -69,6 +77,7 @@ export class About extends Scene {
       })
       .on("pointerover", () => {
         nextToMenuButton.setDisplaySize(110, 55);
+        sfxHover.play({volume: 0.5});
       })
       .on("pointerout", () => {
         nextToMenuButton.setDisplaySize(100, 50);

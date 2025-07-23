@@ -54,6 +54,17 @@ export class Preloader extends Scene
         this.load.image('nextButton', 'src/assets/images/nextb.png');
         this.load.image('aboutButton', 'src/assets/images/ohre_gomb.png');
         this.load.image('restartButton', 'src/assets/images/skusit_znova.png');
+
+        this.load.audio('bumm', 'src/assets/sound/bumm1.wav');
+        this.load.audio('emptygun', 'src/assets/sound/emptygun1.wav');
+        this.load.audio('shot', 'src/assets/sound/gun_shot.wav');
+        this.load.audio('headshot1', 'src/assets/sound/headshot1.wav');
+        this.load.audio('headshot2', 'src/assets/sound/headshot2.wav');
+        this.load.audio('headshot3', 'src/assets/sound/headshot3.wav');
+        this.load.audio('headshot4', 'src/assets/sound/headshot4.wav');
+        this.load.audio('headshot5', 'src/assets/sound/headshot5.wav');
+        this.load.audio('hover', 'src/assets/sound/klop1.wav');
+        this.load.audio('reload', 'src/assets/sound/reload.wav');
     }
 
     create ()

@@ -23,6 +23,7 @@ export class ScoreBoard extends Scene {
 
   create() {
     const { width, height } = this.scale;
+    const sfxBumm = this.sound.add("bumm");
 
     this.input.setDefaultCursor("default");
     this.add
@@ -56,6 +57,7 @@ export class ScoreBoard extends Scene {
           align: "center",
         })
         .setOrigin(0.5);
+      sfxBumm.play();
     };
 
     this.time.addEvent({

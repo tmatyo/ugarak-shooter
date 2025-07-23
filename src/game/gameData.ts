@@ -60,3 +60,11 @@ export const tweenEases = [
 ];
 export const crosshairCursor =
   "url(src/assets/images/cursor2v2.png), crosshair";
+export const gunSounds = ["shot", "emptygun", "reload"];
+export const demonSounds = [
+  "headshot1",
+  "headshot2",
+  "headshot3",
+  "headshot4",
+  "headshot5",
+];
