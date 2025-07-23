@@ -3,15 +3,15 @@ import { crosshairCursor } from "../gameData";
 import { Hud, Fps, Gun, Demon } from "../gameObjects";
 
 export class Game extends Scene {
-  camera: Cameras.Scene2D.Camera;
-  demons: GameObjects.Sprite[] = [];
-  bg: GameObjects.Image;
-  worldWidth: number;
-  hud: Hud;
-  hudHeight: number = 0;
-  fps: Fps;
-  gun: Gun;
-  demon: Demon;
+  private camera: Cameras.Scene2D.Camera;
+  private bg: GameObjects.Image;
+  private worldWidth: number;
+  private hud: Hud;
+  private hudHeight: number = 0;
+  private fps: Fps;
+  private gun: Gun;
+  private demon: Demon;
+  private speed: number = 2;
 
   constructor() {
     super("Game");
@@ -68,13 +68,24 @@ export class Game extends Scene {
       .on("down", () => this.gun.reload());
   }
 
+  private calculateSceneDuration(): number {
+    const distance = this.worldWidth - this.scale.width;
+    const frames = distance / this.speed;
+    const fps = this.game.loop.actualFps || 60;
+    return frames / fps;
+  }
+
   update(time: number, delta: number) {
     this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
     if (this.camera.scrollX < this.worldWidth - this.scale.width) {
-      this.camera.scrollX += 2;
+      this.camera.scrollX += this.speed;
     } else {
       this.scene.stop("Game");
-      this.scene.start("ScoreBoard");
+      this.scene.start("ScoreBoard", {
+        score: this.hud.getScore(),
+        shots: this.gun.getShotsFired(),
+        duration: this.calculateSceneDuration(),
+      });
       return;
     }
     if (Phaser.Math.Between(0, 100) < 5) {

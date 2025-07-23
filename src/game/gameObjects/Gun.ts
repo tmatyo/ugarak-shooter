@@ -5,6 +5,7 @@ export class Gun extends GameObjects.Container {
   private hud: Hud;
   private magazineSize: number = 15;
   private numberOfBullets: number = this.magazineSize;
+  private shotsFired: number = 0;
 
   constructor(scene: Scene, hud: Hud) {
     super(scene, 0, 0);
@@ -21,6 +22,7 @@ export class Gun extends GameObjects.Container {
   public shoot() {
     if (this.numberOfBullets > 0) {
       this.numberOfBullets--;
+      this.shotsFired++;
       this.hud.decrementBullets(this.numberOfBullets);
     } else {
       console.warn("CLICK!", "No bullets left to shoot!");
@@ -29,6 +31,10 @@ export class Gun extends GameObjects.Container {
 
   public getNumberOfBullets(): number {
     return this.numberOfBullets;
+  }
+
+  public getShotsFired(): number {
+    return this.shotsFired;
   }
 
   public isMagazineEmpty(): boolean {
