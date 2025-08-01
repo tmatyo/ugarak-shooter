@@ -1,5 +1,10 @@
 import { Scene, GameObjects } from "phaser";
-import { copyrightTextStyle, copyrightText } from "../gameData";
+import {
+  copyrightTextStyle,
+  copyrightText,
+  titleTextStyle,
+  buttonTextStyle,
+} from "../gameData";
 
 export class MainMenu extends Scene {
   constructor() {
@@ -21,8 +26,12 @@ export class MainMenu extends Scene {
       .setOrigin(0, 0)
       .setDisplaySize(width, height);
 
-    const playButton: GameObjects.Image = this.add
-      .image(-30, height / 2 - 75, "playButton")
+    this.add
+      .text(width - 30, 30, "Ugarak Shooter", titleTextStyle)
+      .setOrigin(1, 0);
+
+    const playButton: GameObjects.Text = this.add
+      .text(100, height - 200, "Play", buttonTextStyle)
       .setInteractive({ cursor: "pointer" })
       .setOrigin(0, 0)
       .on("pointerdown", () => {
@@ -30,26 +39,26 @@ export class MainMenu extends Scene {
         this.scene.start("Controls");
       })
       .on("pointerover", () => {
-        playButton.setPosition(-15, height / 2 - 75);
-        sfxHover.play({volume: 0.5});
+        playButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
       })
       .on("pointerout", () => {
-        playButton.setPosition(-30, height / 2 - 75);
+        playButton.setFontSize("35px");
       });
 
-    const aboutButton: GameObjects.Image = this.add
-      .image(-50, height / 2 + 75, "aboutButton")
+    const aboutButton: GameObjects.Text = this.add
+      .text(100, height - 120, "O hre", buttonTextStyle)
       .setInteractive({ cursor: "pointer" })
       .setOrigin(0, 0)
       .on("pointerdown", () => {
         this.scene.start("About");
       })
       .on("pointerover", () => {
-        aboutButton.setPosition(-35, height / 2 + 75);
-        sfxHover.play({volume: 0.5});
+        aboutButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
       })
       .on("pointerout", () => {
-        aboutButton.setPosition(-50, height / 2 + 75);
+        aboutButton.setFontSize("35px");
       });
 
     const copyright: GameObjects.Text = this.add.text(

@@ -41,19 +41,9 @@ export class Preloader extends Scene
 
         this.load.image('cursor', 'src/assets/images/cursor2v2.png');
         
-        this.load.image('siteBackground', 'src/assets/images/new_site_bg.jpg');
-        this.load.image('gameBackground', 'src/assets/images/hattter.jpg');
-        this.load.image('menuBackground', 'src/assets/images/menuu.jpg');
-        this.load.image('aboutBackground', 'src/assets/images/plot.jpg');
-        this.load.image('controlsBackground', 'src/assets/images/ovladanie_page.jpg');
-        this.load.image('scoreBackground', 'src/assets/images/vysledky.jpg');
+        this.load.image('menuBackground', 'src/assets/images/menu_remaster_v3.jpg');
+        this.load.image('gameBackground', 'src/assets/images/hatter_remaster.jpg');
         this.load.image('hudBackground', 'src/assets/images/panel_jo.jpg');
-        
-        this.load.image('menuButton', 'src/assets/images/menu.png');
-        this.load.image('playButton', 'src/assets/images/hraj_gomb.png');
-        this.load.image('nextButton', 'src/assets/images/nextb.png');
-        this.load.image('aboutButton', 'src/assets/images/ohre_gomb.png');
-        this.load.image('restartButton', 'src/assets/images/skusit_znova.png');
 
         this.load.audio('bumm', 'src/assets/sound/bumm1.wav');
         this.load.audio('emptygun', 'src/assets/sound/emptygun1.wav');

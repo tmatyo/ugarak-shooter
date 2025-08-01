@@ -1,5 +1,5 @@
 import { Scene, GameObjects } from "phaser";
-import { controlsHint } from "../gameData";
+import { buttonTextStyle, controlsHint, titleTextStyle } from "../gameData";
 
 export class Controls extends Scene {
   constructor() {
@@ -8,7 +8,8 @@ export class Controls extends Scene {
 
   create() {
     const { width, height } = this.scale;
-    const { padding, textureName, backgroundColor, backgroundOpacity } = controlsHint;
+    const { padding, textureName, backgroundColor, backgroundOpacity } =
+      controlsHint;
 
     const sfxHover = this.sound.add("hover");
     this.input.once("pointerdown", () => {
@@ -18,9 +19,43 @@ export class Controls extends Scene {
     });
 
     this.add
-      .image(0, 0, "controlsBackground")
+      .image(0, 0, "menuBackground")
       .setOrigin(0, 0)
       .setDisplaySize(width, height);
+
+    this.add
+      .text(width - 30, 30, "Ako na to?", titleTextStyle)
+      .setOrigin(1, 0);
+      
+    const nextToMenuButton: GameObjects.Text = this.add
+      .text(width - 30, height - 30, "Next", buttonTextStyle)
+      .setOrigin(1, 1)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.scene.start("Game");
+      })
+      .on("pointerover", () => {
+        nextToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
+      })
+      .on("pointerout", () => {
+        nextToMenuButton.setFontSize("35px");
+      });
+
+    const backToMenuButton: GameObjects.Text = this.add
+      .text(width - 230, height - 30, "Back", buttonTextStyle)
+      .setOrigin(1, 1)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.scene.start("About");
+      })
+      .on("pointerover", () => {
+        backToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
+      })
+      .on("pointerout", () => {
+        backToMenuButton.setFontSize("35px");
+      });
 
     const text: GameObjects.Text = this.add
       .text(0, 0, controlsHint.text, controlsHint.style)
@@ -48,37 +83,5 @@ export class Controls extends Scene {
     text.setPosition(padding, padding);
 
     this.add.container(30 - padding / 2, 450, [textBackground, text]);
-
-    const backToMenuButton: GameObjects.Image = this.add
-      .image(width - 250, height - 50, "menuButton")
-      .setInteractive({ cursor: "pointer" })
-      .setOrigin(0.5)
-      .setDisplaySize(100, 50)
-      .on("pointerdown", () => {
-        this.scene.start("MainMenu");
-      })
-      .on("pointerover", () => {
-        backToMenuButton.setDisplaySize(110, 55);
-        sfxHover.play({volume: 0.5});
-      })
-      .on("pointerout", () => {
-        backToMenuButton.setDisplaySize(100, 50);
-      });
-
-    const nextToMenuButton: GameObjects.Image = this.add
-      .image(width - 100, height - 50, "nextButton")
-      .setInteractive({ cursor: "pointer" })
-      .setOrigin(0.5)
-      .setDisplaySize(100, 50)
-      .on("pointerdown", () => {
-        this.scene.start("Game");
-      })
-      .on("pointerover", () => {
-        nextToMenuButton.setDisplaySize(110, 55);
-        sfxHover.play({volume: 0.5});
-      })
-      .on("pointerout", () => {
-        nextToMenuButton.setDisplaySize(100, 50);
-      });
   }
 }

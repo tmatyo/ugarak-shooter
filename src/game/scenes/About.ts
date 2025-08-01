@@ -1,5 +1,5 @@
 import { GameObjects, Scene } from "phaser";
-import { plot } from "../gameData";
+import { buttonTextStyle, plot, titleTextStyle } from "../gameData";
 
 export class About extends Scene {
   constructor() {
@@ -20,9 +20,43 @@ export class About extends Scene {
     });
 
     this.add
-      .image(0, 0, "aboutBackground")
+      .image(0, 0, "menuBackground")
       .setOrigin(0, 0)
       .setDisplaySize(width, height);
+
+    this.add
+      .text(width - 30, 30, "O hre", titleTextStyle)
+      .setOrigin(1, 0);
+
+    const nextToMenuButton: GameObjects.Text = this.add
+      .text(width - 30, height - 30, "Next", buttonTextStyle)
+      .setOrigin(1, 1)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.scene.start("Controls");
+      })
+      .on("pointerover", () => {
+        nextToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
+      })
+      .on("pointerout", () => {
+        nextToMenuButton.setFontSize("35px");
+      });
+
+    const backToMenuButton: GameObjects.Text = this.add
+      .text(width - 230, height - 30, "Back", buttonTextStyle)
+      .setOrigin(1, 1)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.scene.start("MainMenu");
+      })
+      .on("pointerover", () => {
+        backToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
+      })
+      .on("pointerout", () => {
+        backToMenuButton.setFontSize("35px");
+      });
 
     const text: GameObjects.Text = this.add
       .text(0, 0, plot.text, plot.style)
@@ -50,37 +84,5 @@ export class About extends Scene {
     text.setPosition(padding, padding);
 
     this.add.container(30 - padding / 2, 250, [textBackground, text]);
-
-    const backToMenuButton: GameObjects.Image = this.add
-      .image(width - 250, height - 50, "menuButton")
-      .setInteractive({ cursor: "pointer" })
-      .setOrigin(0.5)
-      .setDisplaySize(100, 50)
-      .on("pointerdown", () => {
-        this.scene.start("MainMenu");
-      })
-      .on("pointerover", () => {
-        backToMenuButton.setDisplaySize(110, 55);
-        sfxHover.play({volume: 0.5});
-      })
-      .on("pointerout", () => {
-        backToMenuButton.setDisplaySize(100, 50);
-      });
-
-    const nextToMenuButton: GameObjects.Image = this.add
-      .image(width - 100, height - 50, "nextButton")
-      .setInteractive({ cursor: "pointer" })
-      .setOrigin(0.5)
-      .setDisplaySize(100, 50)
-      .on("pointerdown", () => {
-        this.scene.start("Controls");
-      })
-      .on("pointerover", () => {
-        nextToMenuButton.setDisplaySize(110, 55);
-        sfxHover.play({volume: 0.5});
-      })
-      .on("pointerout", () => {
-        nextToMenuButton.setDisplaySize(100, 50);
-      });
   }
 }

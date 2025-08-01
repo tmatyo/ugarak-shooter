@@ -29,10 +29,10 @@ export const copyrightTextStyle = {
   fontSize: 15,
   color: "#fff",
   stroke: "#000",
-  strokeThickness: 8,
+  strokeThickness: 5,
 };
 export const controlsHint: GameTextType = {
-  text: "Ako na to?\nStrielať môžes pomocou ľavého tlačidla myši. Keď dôjdu náboje, môžeš prebiť zbraň pomocou medzerníka.",
+  text: "Ako na to?\n\nStrielať môžes pomocou ľavého tlačidla myši. Keď dôjdu náboje, môžeš prebiť zbraň pomocou medzerníka.",
   style: {
     fontFamily: "Arial",
     fontSize: 20,
@@ -43,7 +43,29 @@ export const controlsHint: GameTextType = {
   backgroundColor: 0xdccd24, // Yellow background color
   backgroundOpacity: 0.8, // Opacity for the background
 };
-
+export const titleTextStyle = {
+  fontSize: "75px",
+  color: "#DB2F07",
+  fontFamily: "super-peanut",
+  stroke: "#ffff00",
+  strokeThickness: 45,
+  align: "center",
+};
+export const buttonTextStyle = {
+  fontSize: "35px",
+  color: "#DB2F07",
+  fontFamily: "super-peanut",
+  stroke: "#ffff00",
+  strokeThickness: 25,
+  align: "center",
+};
+export const resultsTextStyle = {
+  fontSize: "55px",
+  fontFamily: "super-peanut",
+  stroke: "#000000",
+  strokeThickness: 10,
+  align: "center",
+};
 export const demonImages = ["demon1", "demon2", "demon3"];
 export const tweenEases = [
   "Linear",

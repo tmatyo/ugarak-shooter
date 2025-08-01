@@ -1,4 +1,5 @@
-import { Scene } from "phaser";
+import { Scene, GameObjects } from "phaser";
+import { buttonTextStyle, resultsTextStyle, titleTextStyle } from "../gameData";
 
 type ScoreBoardPropsType = {
   score: number;
@@ -24,62 +25,109 @@ export class ScoreBoard extends Scene {
   create() {
     const { width, height } = this.scale;
     const sfxBumm = this.sound.add("bumm");
+    const sfxHover = this.sound.add("hover");
 
     this.input.setDefaultCursor("default");
     this.add
-      .image(0, 0, "scoreBackground")
+      .image(0, 0, "menuBackground")
       .setOrigin(0, 0)
       .setDisplaySize(width, height);
 
-    const backToMenuButton = this.add
-      .image(width - 250, height - 50, "menuButton")
+    this.add.text(width - 30, 30, "Výsledky", titleTextStyle).setOrigin(1, 0);
+
+    const nextToMenuButton: GameObjects.Text = this.add
+      .text(width - 30, height - 30, "Restart", buttonTextStyle)
+      .setOrigin(1, 1)
       .setInteractive({ cursor: "pointer" })
-      .setOrigin(0.5)
-      .setDisplaySize(100, 50)
+      .on("pointerdown", () => {
+        this.scene.start("Game");
+      })
+      .on("pointerover", () => {
+        nextToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
+      })
+      .on("pointerout", () => {
+        nextToMenuButton.setFontSize("35px");
+      });
+
+    const backToMenuButton: GameObjects.Text = this.add
+      .text(width - 230, height - 30, "Back", buttonTextStyle)
+      .setOrigin(1, 1)
+      .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         this.scene.start("MainMenu");
       })
       .on("pointerover", () => {
-        backToMenuButton.setDisplaySize(110, 55);
+        backToMenuButton.setFontSize("40px");
+        sfxHover.play({ volume: 0.5 });
       })
       .on("pointerout", () => {
-        backToMenuButton.setDisplaySize(100, 50);
+        backToMenuButton.setFontSize("35px");
       });
+
+    const bulletsShot: GameObjects.Text = this.add
+      .text(50, 250, "Bullets shot:", resultsTextStyle)
+      .setColor("#fff")
+      .setOrigin(0, 0.5);
+    const pointsEarned: GameObjects.Text = this.add
+      .text(50, 350, "Points earned:", resultsTextStyle)
+      .setColor("#fff")
+      .setOrigin(0, 0.5);
+    const successRate: GameObjects.Text = this.add
+      .text(50, 450, "Success rate:", resultsTextStyle)
+      .setColor("#fff")
+      .setOrigin(0, 0.5);
+    const shootingSpeed: GameObjects.Text = this.add
+      .text(50, 550, "Shooting speed:", resultsTextStyle)
+      .setColor("#fff")
+      .setOrigin(0, 0.5);
 
     const renderResults = (x: number, y: number, text: string) => {
       this.add
-        .text(x, y, text, {
-          fontSize: "55px",
-          color: "#ff0",
-          fontFamily: "super-peanut",
-          stroke: "#000000",
-          strokeThickness: 10,
-          align: "center",
-        })
-        .setOrigin(0.5);
+        .text(x, y, text, resultsTextStyle)
+        .setColor("#ff0")
+        .setOrigin(0, 0.5);
       sfxBumm.play();
     };
 
     this.time.addEvent({
       delay: 2000,
-      callback: () => renderResults(270, 300, this.shots.toString()),
+      callback: () =>
+        renderResults(
+          20 + bulletsShot.x + bulletsShot.width,
+          bulletsShot.y,
+          this.shots.toString()
+        ),
     });
 
     this.time.addEvent({
       delay: 3000,
-      callback: () => renderResults(380, 420, this.score.toString()),
+      callback: () =>
+        renderResults(
+          20 + pointsEarned.x + pointsEarned.width,
+          pointsEarned.y,
+          this.score.toString()
+        ),
     });
 
     this.time.addEvent({
       delay: 4000,
       callback: () =>
-        renderResults(520, 540, ((this.score * 100) / this.shots).toFixed(2)),
+        renderResults(
+          20 + successRate.x + successRate.width,
+          successRate.y,
+          ((this.score * 100) / this.shots).toFixed(2) + " %"
+        ),
     });
 
     this.time.addEvent({
       delay: 5000,
       callback: () =>
-        renderResults(520, 660, (this.shots / this.duration).toFixed(2)),
+        renderResults(
+          20 + shootingSpeed.x + shootingSpeed.width,
+          shootingSpeed.y,
+          (this.shots / this.duration).toFixed(2) + " shot/sec"
+        ),
     });
   }
 }
