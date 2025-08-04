@@ -16,7 +16,7 @@ export class Demon extends GameObjects.Container {
   private demons: GameObjects.Sprite[] = [];
   private hud: Hud;
   private gun: Gun;
-  private sounds: Record<string, Sound.BaseSound> = {};
+  private headShotSounds: Record<string, Sound.BaseSound> = {};
 
   constructor({
     scene,
@@ -35,7 +35,7 @@ export class Demon extends GameObjects.Container {
 
   private createSounds(scene: Scene) {
     demonSounds.forEach((sfx) => {
-      this.sounds[sfx] = scene.sound.add(sfx);
+      this.headShotSounds[sfx] = scene.sound.add(sfx);
     });
   }
 
@@ -52,21 +52,22 @@ export class Demon extends GameObjects.Container {
     };
   }
 
-  private onShot(demon: GameObjects.Sprite) {
+  private onHit(demon: GameObjects.Sprite) {
     const magazineIsEmpty = this.gun.isMagazineEmpty();
-    if (!magazineIsEmpty) {
-      demon.setTint(0xff0000);
-      this.scene.time.delayedCall(300, () => {
-        this.sounds[
-          demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]
-        ].play({ volume: demon.scale * 0.5 });
-        demon.clearTint();
-        demon.destroy();
-        this.hud.incrementScore();
-        this.demons = this.demons.filter((d) => d !== demon);
-        console.log("Demon destroyed, remaining:", this.demons.length);
-      });
+    if (magazineIsEmpty) {
+      return;
     }
+    demon.setTint(0xff0000);
+    this.scene.time.delayedCall(300, () => {
+      this.headShotSounds[
+        demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]
+      ].play({ volume: demon.scale * 0.5 });
+      demon.clearTint();
+      demon.destroy();
+      this.hud.incrementScore();
+      this.demons = this.demons.filter((d) => d !== demon);
+      console.log("Demon destroyed, remaining:", this.demons.length);
+    });
   }
 
   public spawn(scene: Scene) {
@@ -82,8 +83,8 @@ export class Demon extends GameObjects.Container {
       .setOrigin(0.5)
       .setScale(Phaser.Math.Between(0.5, 1.5))
       .setInteractive()
-      .on("pointerdown", () => this.onShot(demon))
-      .on("tap", () => this.onShot(demon));
+      .on("pointerdown", () => this.onHit(demon))
+      .on("tap", () => this.onHit(demon));
 
     scene.physics.add.existing(demon);
     scene.tweens.add({
