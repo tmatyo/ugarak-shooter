@@ -1,5 +1,5 @@
 import { Scene, GameObjects } from "phaser";
-import { copyrightTextStyle, copyrightText, titleTextStyle, buttonTextStyle } from "../gameData";
+import { copyrightTextStyle, copyrightText, titleTextStyle, menuButtonTextStyle } from "../gameData";
 
 export class MainMenu extends Scene {
 	constructor() {
@@ -20,8 +20,10 @@ export class MainMenu extends Scene {
 
 		this.add.text(width - 30, 30, "Ugarak Shooter 2", titleTextStyle).setOrigin(1, 0);
 
+		const { bStyle, bHoverSize, bNormalSize } = menuButtonTextStyle;
+
 		const playButton: GameObjects.Text = this.add
-			.text(100, height - 200, "Play", buttonTextStyle)
+			.text(100, height - 250, "Play", bStyle)
 			.setInteractive({ cursor: "pointer" })
 			.setOrigin(0, 0)
 			.on("pointerdown", () => {
@@ -29,26 +31,26 @@ export class MainMenu extends Scene {
 				this.scene.start("Controls");
 			})
 			.on("pointerover", () => {
-				playButton.setFontSize("40px");
+				playButton.setFontSize(bHoverSize);
 				sfxHover.play({ volume: 0.5 });
 			})
 			.on("pointerout", () => {
-				playButton.setFontSize("35px");
+				playButton.setFontSize(bNormalSize);
 			});
 
 		const aboutButton: GameObjects.Text = this.add
-			.text(100, height - 120, "O hre", buttonTextStyle)
+			.text(100, height - 150, "O hre", bStyle)
 			.setInteractive({ cursor: "pointer" })
 			.setOrigin(0, 0)
 			.on("pointerdown", () => {
 				this.scene.start("About");
 			})
 			.on("pointerover", () => {
-				aboutButton.setFontSize("40px");
+				aboutButton.setFontSize(bHoverSize);
 				sfxHover.play({ volume: 0.5 });
 			})
 			.on("pointerout", () => {
-				aboutButton.setFontSize("35px");
+				aboutButton.setFontSize(bNormalSize);
 			});
 
 		const copyright: GameObjects.Text = this.add.text(0, 0, copyrightText, copyrightTextStyle);
