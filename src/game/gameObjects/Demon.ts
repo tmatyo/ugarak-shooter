@@ -41,8 +41,8 @@ export class Demon extends GameObjects.Container {
 
   private newCoordinatesInsideCamera(scene: Scene) {
     const cam = scene.cameras.main;
-    const camMinX = cam.scrollX + 50;
-    const camMaxX = cam.scrollX + cam.width - 100;
+    const camMinX = cam.scrollX + cam.width;
+    const camMaxX = cam.scrollX + cam.width * 1.5;
     const camMinY = cam.scrollY + 50;
     const camMaxY = cam.scrollY + cam.height - 100 - this.hudHeight;
 
