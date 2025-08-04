@@ -62,6 +62,20 @@ export class Preloader extends Scene
         this.load.audio('killing_streak', 'src/assets/sound/killing_streak.wav');
         this.load.audio('samantas_laugh', 'src/assets/sound/samantas_laugh.wav');
         this.load.audio('unstoppable', 'src/assets/sound/unstoppable.wav');
+
+        this.load.audio('barking1', 'src/assets/sound/barking1.wav');        
+        this.load.audio('barking2', 'src/assets/sound/barking2.wav');        
+        this.load.audio('barking3', 'src/assets/sound/barking3.wav');        
+        this.load.audio('barking4', 'src/assets/sound/barking4.wav');        
+        this.load.audio('barking5', 'src/assets/sound/barking5.wav');        
+        this.load.audio('barking6', 'src/assets/sound/barking6.wav');        
+        this.load.audio('barking7', 'src/assets/sound/barking7.wav');        
+        this.load.audio('barking8', 'src/assets/sound/barking8.wav');        
+        this.load.audio('barking9', 'src/assets/sound/barking9.wav');        
+        this.load.audio('barking11', 'src/assets/sound/barking11.wav');        
+        this.load.audio('barking12', 'src/assets/sound/barking12.wav');        
+        this.load.audio('barking13', 'src/assets/sound/barking13.wav');        
+        this.load.audio('barking14', 'src/assets/sound/barking14.wav');        
     }
 
     create ()
