@@ -1,5 +1,5 @@
-import { Scene, GameObjects, Cameras, Input } from "phaser";
-import { crosshairCursor } from "../gameData";
+import { Scene, GameObjects, Cameras, Input, Sound } from "phaser";
+import { crosshairCursor, evilLaughSounds } from "../gameData";
 import { Hud, Fps, Gun, Demon } from "../gameObjects";
 
 export class Game extends Scene {
@@ -12,9 +12,18 @@ export class Game extends Scene {
   private gun: Gun;
   private demon: Demon;
   private speed: number = 2;
+  private evilSounds: Record<string, Sound.BaseSound> = {};
+  private evilSoundsIteration: number = 0;
 
   constructor() {
     super("Game");
+  }
+
+  setupSoundFx() {
+    this.sound.add("evil_start").play({ volume: 0.5 });
+    evilLaughSounds.forEach((sfx) => {
+      this.evilSounds[sfx] = this.sound.add(sfx);
+    });
   }
 
   create() {
@@ -25,6 +34,9 @@ export class Game extends Scene {
 
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, this.worldWidth, this.bg.height);
+
+    // setup sfx and play initial sound
+    this.setupSoundFx();
 
     // mini hud with FPS
     this.fps = new Fps(this);
@@ -48,6 +60,19 @@ export class Game extends Scene {
     this.time.addEvent({
       delay: Phaser.Math.Between(2000, 5000),
       callback: () => this.demon.spawn(this),
+      loop: true,
+    });
+
+    // setup evil sounds
+    const duration = this.calculateSceneDuration();
+    this.time.addEvent({
+      delay: Math.floor(duration / evilLaughSounds.length) * 1000,
+      callback: () => {
+        this.evilSounds[evilLaughSounds[this.evilSoundsIteration]].play({
+          volume: 0.5,
+        });
+        this.evilSoundsIteration++;
+      },
       loop: true,
     });
 

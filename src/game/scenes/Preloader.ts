@@ -55,6 +55,13 @@ export class Preloader extends Scene
         this.load.audio('headshot5', 'src/assets/sound/headshot5.wav');
         this.load.audio('hover', 'src/assets/sound/klop1.wav');
         this.load.audio('reload', 'src/assets/sound/reload.wav');
+
+        this.load.audio('evil_start', 'src/assets/sound/ev_la.mp3');
+        this.load.audio('evil1', 'src/assets/sound/evil1.wav');
+        this.load.audio('evil2', 'src/assets/sound/evil2.wav');
+        this.load.audio('killing_streak', 'src/assets/sound/killing_streak.wav');
+        this.load.audio('samantas_laugh', 'src/assets/sound/samantas_laugh.wav');
+        this.load.audio('unstoppable', 'src/assets/sound/unstoppable.wav');
     }
 
     create ()

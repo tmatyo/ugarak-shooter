@@ -90,3 +90,10 @@ export const demonSounds = [
   "headshot4",
   "headshot5",
 ];
+export const evilLaughSounds = [
+  "evil1",
+  "samantas_laugh",
+  "evil2",
+  "killing_streak",
+  "unstoppable",
+];
