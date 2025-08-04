@@ -27,7 +27,7 @@ export class MainMenu extends Scene {
       .setDisplaySize(width, height);
 
     this.add
-      .text(width - 30, 30, "Ugarak Shooter", titleTextStyle)
+      .text(width - 30, 30, "Ugarak Shooter 2", titleTextStyle)
       .setOrigin(1, 0);
 
     const playButton: GameObjects.Text = this.add

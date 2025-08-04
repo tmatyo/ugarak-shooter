@@ -51,7 +51,7 @@ export class ScoreBoard extends Scene {
       });
 
     const backToMenuButton: GameObjects.Text = this.add
-      .text(width - 230, height - 30, "Back", buttonTextStyle)
+      .text(width - 230, height - 30, "Main Menu", buttonTextStyle)
       .setOrigin(1, 1)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
