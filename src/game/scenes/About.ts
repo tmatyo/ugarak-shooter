@@ -2,87 +2,68 @@ import { GameObjects, Scene } from "phaser";
 import { buttonTextStyle, plot, titleTextStyle } from "../gameData";
 
 export class About extends Scene {
-  constructor() {
-    super("About");
-  }
+	constructor() {
+		super("About");
+	}
 
-  preload() {}
+	preload() {}
 
-  create() {
-    const { width, height } = this.scale;
-    const { padding, textureName, backgroundColor, backgroundOpacity } = plot;
+	create() {
+		const { width, height } = this.scale;
+		const { padding, textureName, backgroundColor, backgroundOpacity } = plot;
 
-    const sfxHover = this.sound.add("hover");
-    this.input.once("pointerdown", () => {
-      if (this.sound.locked) {
-        this.sound.unlock();
-      }
-    });
+		const sfxHover = this.sound.add("hover");
+		this.input.once("pointerdown", () => {
+			if (this.sound.locked) {
+				this.sound.unlock();
+			}
+		});
 
-    this.add
-      .image(0, 0, "menuBackground")
-      .setOrigin(0, 0)
-      .setDisplaySize(width, height);
+		this.add.image(0, 0, "menuBackground").setOrigin(0, 0).setDisplaySize(width, height);
 
-    this.add
-      .text(width - 30, 30, "O hre", titleTextStyle)
-      .setOrigin(1, 0);
+		this.add.text(width - 30, 30, "O hre", titleTextStyle).setOrigin(1, 0);
 
-    const nextToMenuButton: GameObjects.Text = this.add
-      .text(width - 30, height - 30, "Next", buttonTextStyle)
-      .setOrigin(1, 1)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        this.scene.start("Controls");
-      })
-      .on("pointerover", () => {
-        nextToMenuButton.setFontSize("40px");
-        sfxHover.play({ volume: 0.5 });
-      })
-      .on("pointerout", () => {
-        nextToMenuButton.setFontSize("35px");
-      });
+		const nextToMenuButton: GameObjects.Text = this.add
+			.text(width - 30, height - 30, "Next", buttonTextStyle)
+			.setOrigin(1, 1)
+			.setInteractive({ cursor: "pointer" })
+			.on("pointerdown", () => {
+				this.scene.start("Controls");
+			})
+			.on("pointerover", () => {
+				nextToMenuButton.setFontSize("40px");
+				sfxHover.play({ volume: 0.5 });
+			})
+			.on("pointerout", () => {
+				nextToMenuButton.setFontSize("35px");
+			});
 
-    const backToMenuButton: GameObjects.Text = this.add
-      .text(width - 230, height - 30, "Back", buttonTextStyle)
-      .setOrigin(1, 1)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        this.scene.start("MainMenu");
-      })
-      .on("pointerover", () => {
-        backToMenuButton.setFontSize("40px");
-        sfxHover.play({ volume: 0.5 });
-      })
-      .on("pointerout", () => {
-        backToMenuButton.setFontSize("35px");
-      });
+		const backToMenuButton: GameObjects.Text = this.add
+			.text(width - 230, height - 30, "Back", buttonTextStyle)
+			.setOrigin(1, 1)
+			.setInteractive({ cursor: "pointer" })
+			.on("pointerdown", () => {
+				this.scene.start("MainMenu");
+			})
+			.on("pointerover", () => {
+				backToMenuButton.setFontSize("40px");
+				sfxHover.play({ volume: 0.5 });
+			})
+			.on("pointerout", () => {
+				backToMenuButton.setFontSize("35px");
+			});
 
-    const text: GameObjects.Text = this.add
-      .text(0, 0, plot.text, plot.style)
-      .setWordWrapWidth(width - 80);
+		const text: GameObjects.Text = this.add.text(0, 0, plot.text, plot.style).setWordWrapWidth(width - 80);
 
-    const graphics: GameObjects.Graphics = this.add.graphics();
-    graphics.fillStyle(backgroundColor, backgroundOpacity);
-    graphics.fillRoundedRect(
-      0,
-      0,
-      text.width + padding * 2,
-      text.height + padding * 2,
-      padding / 2
-    );
-    graphics.generateTexture(
-      textureName,
-      text.width + padding * 2,
-      text.height + padding * 2
-    );
-    graphics.destroy();
+		const graphics: GameObjects.Graphics = this.add.graphics();
+		graphics.fillStyle(backgroundColor, backgroundOpacity);
+		graphics.fillRoundedRect(0, 0, text.width + padding * 2, text.height + padding * 2, padding / 2);
+		graphics.generateTexture(textureName, text.width + padding * 2, text.height + padding * 2);
+		graphics.destroy();
 
-    const textBackground: GameObjects.Image = this.add
-      .image(0, 0, textureName)
-      .setOrigin(0, 0);
-    text.setPosition(padding, padding);
+		const textBackground: GameObjects.Image = this.add.image(0, 0, textureName).setOrigin(0, 0);
+		text.setPosition(padding, padding);
 
-    this.add.container(30 - padding / 2, 250, [textBackground, text]);
-  }
+		this.add.container(30 - padding / 2, 250, [textBackground, text]);
+	}
 }
