@@ -11,7 +11,7 @@ export class Game extends Scene {
 	private fps: Fps;
 	private gun: Gun;
 	private demon: Demon;
-	private speed: number = 2;
+	private speed: number = 120;
 	private evilSounds: Record<string, Sound.BaseSound> = {};
 	private evilSoundsIteration: number = 0;
 
@@ -93,15 +93,13 @@ export class Game extends Scene {
 
 	private calculateSceneDuration(): number {
 		const distance = this.worldWidth - this.scale.width;
-		const frames = distance / this.speed;
-		const fps = this.game.loop.actualFps || 60;
-		return frames / fps;
+		return distance / this.speed;
 	}
 
 	update(time: number, delta: number) {
 		this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
 		if (this.camera.scrollX < this.worldWidth - this.scale.width) {
-			this.camera.scrollX += this.speed;
+			this.camera.scrollX += this.speed * (delta / 1000);
 		} else {
 			this.scene.stop("Game");
 			this.scene.start("ScoreBoard", {
