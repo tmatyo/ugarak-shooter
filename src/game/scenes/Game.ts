@@ -68,6 +68,10 @@ export class Game extends Scene {
 		this.time.addEvent({
 			delay: Math.floor(duration / evilLaughSounds.length) * 1000,
 			callback: () => {
+				if (this.evilSoundsIteration >= evilLaughSounds.length) {
+					this.evilSoundsIteration = 0;
+				}
+				
 				this.evilSounds[evilLaughSounds[this.evilSoundsIteration]].play({
 					volume: 0.5,
 				});
@@ -101,6 +105,7 @@ export class Game extends Scene {
 		if (this.camera.scrollX < this.worldWidth - this.scale.width) {
 			this.camera.scrollX += this.speed * (delta / 1000);
 		} else {
+			this.sound.stopAll();
 			this.scene.stop("Game");
 			this.scene.start("ScoreBoard", {
 				score: this.hud.getScore(),
