@@ -28,13 +28,17 @@ export class Preloader extends Scene {
 		this.load.font("super-peanut", superPeanutFont);
 		this.load.font("super-brigade", superBrigadeFont);
 
-		this.load.image("demon1", "src/assets/images/amo1.png");
-		this.load.image("demon2", "src/assets/images/dagi1.png");
-		this.load.image("demon3", "src/assets/images/dani1.png");
+		this.load.image("demon1", "src/assets/images/heads/dagi1.png");
+		this.load.image("demon2", "src/assets/images/heads/dagi2.png");
+		this.load.image("demon3", "src/assets/images/heads/en1.png");
+		this.load.image("demon4", "src/assets/images/heads/en2.png");
+		this.load.image("demon5", "src/assets/images/heads/szpeti1.png");
+		this.load.image("demon6", "src/assets/images/heads/szpeti2.png");
+		this.load.image("demon7", "src/assets/images/heads/yoko1.png");
+		this.load.image("demon8", "src/assets/images/heads/yoko2.png");
 		this.load.image("bullet", "src/assets/images/bullet1.png");
-
 		this.load.image("cursor", "src/assets/images/cursor2v2.png");
-
+        
 		this.load.image("menuBackground", "src/assets/images/menu_remaster_v3.jpg");
 		this.load.image("gameBackground", "src/assets/images/hatter_remaster.jpg");
 		this.load.image("hudBackground", "src/assets/images/panel_jo.jpg");

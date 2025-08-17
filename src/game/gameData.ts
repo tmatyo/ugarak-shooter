@@ -51,14 +51,18 @@ export const titleTextStyle = {
 	strokeThickness: 45,
 	align: "center",
 };
-export const menuButtonTextStyle = {bStyle:{
-	fontSize: "55px",
-	color: "#DB2F07",
-	fontFamily: "super-peanut",
-	stroke: "#ffff00",
-	strokeThickness: 35,
-	align: "center",
-}, bHoverSize: "60px", bNormalSize: "55px"};
+export const menuButtonTextStyle = {
+	bStyle: {
+		fontSize: "55px",
+		color: "#DB2F07",
+		fontFamily: "super-peanut",
+		stroke: "#ffff00",
+		strokeThickness: 35,
+		align: "center",
+	},
+	bHoverSize: "60px",
+	bNormalSize: "55px",
+};
 export const buttonTextStyle = {
 	fontSize: "35px",
 	color: "#DB2F07",
@@ -74,7 +78,7 @@ export const resultsTextStyle = {
 	strokeThickness: 10,
 	align: "center",
 };
-export const demonImages = ["demon1", "demon2", "demon3"];
+export const demonImages = ["demon1", "demon2", "demon3", "demon4", "demon5", "demon6", "demon7", "demon8"];
 export const tweenEases = [
 	"Linear",
 	"Sine",
