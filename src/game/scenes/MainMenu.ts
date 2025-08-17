@@ -18,7 +18,7 @@ export class MainMenu extends Scene {
 
 		this.add.image(0, 0, "menuBackground").setOrigin(0, 0).setDisplaySize(width, height);
 
-		this.add.text(width - 30, 30, "Ugarak Shooter 2", titleTextStyle).setOrigin(1, 0);
+		this.add.text(width - 30, 30, "Ugarak Shooter", titleTextStyle).setOrigin(1, 0);
 
 		const { bStyle, bHoverSize, bNormalSize } = menuButtonTextStyle;
 
