@@ -51,6 +51,7 @@ export class Demon extends GameObjects.Container {
 			return;
 		}
 		demon.setTint(0xff0000);
+		this.scene.tweens.killTweensOf(demon);
 		this.scene.time.delayedCall(300, () => {
 			this.headShotSounds[demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]].play({
 				volume: demon.scale * 0.5,
@@ -63,10 +64,29 @@ export class Demon extends GameObjects.Container {
 		});
 	}
 
+	private isDemonOutOfCamera(demon: GameObjects.Sprite, scene: Scene): boolean {
+		return demon.x < scene.cameras.main.scrollX;
+	}
+
+	private cleanUpDemonsOutOfCamera(scene: Scene) {
+		this.demons = this.demons.filter((demon) => {
+			if (this.isDemonOutOfCamera(demon, scene)) {
+				demon.destroy();
+				return false;
+			}
+			return true;
+		});
+	}
+
 	public spawn(scene: Scene) {
+		this.cleanUpDemonsOutOfCamera(scene);
+		if (this.demons.length >= 10) {
+			return;
+		}
+
 		const startPoint = this.newCoordinatesInsideCamera(scene);
 		const endPoint = this.newCoordinatesInsideCamera(scene);
-        
+
 		const demon = scene.add
 			.sprite(startPoint.x, startPoint.y, demonImages[Phaser.Math.Between(0, demonImages.length - 1)])
 			.setOrigin(0.5)
@@ -85,7 +105,6 @@ export class Demon extends GameObjects.Container {
 			repeat: -1,
 			yoyo: false,
 		});
-
 		this.demons.push(demon);
 		//demon.removeFromDisplayList();
 	}
@@ -93,24 +112,4 @@ export class Demon extends GameObjects.Container {
 	public getDemons(): GameObjects.Sprite[] {
 		return this.demons;
 	}
-
-	//   private addMovement(demon: GameObjects.Sprite) {
-	//     const veloX = Phaser.Math.Between(-500, 500);
-	//     const veloY = Phaser.Math.Between(-500, 500);
-	//     console.log(`Demon velocity: ${veloX}, ${veloY}`);
-	//     const vector = this.scene.physics.velocityFromAngle(veloX, veloY);
-	//     (demon.body as Phaser.Physics.Arcade.Body).setVelocity(vector.x, vector.y);
-	//   }
-
-	//   respawnDemons(scene: Scene, demon: GameObjects.Sprite) {
-	//     if (
-	//       demon.x < 0 ||
-	//       demon.x > scene.cameras.main.width ||
-	//       demon.y < 0 ||
-	//       demon.y > scene.cameras.main.height
-	//     ) {
-	//       const { x, y } = this.newCoordinatesInsideCamera(this);
-	//       demon.setPosition(x, y);
-	//     }
-	//   }
 }

@@ -58,7 +58,7 @@ export class Game extends Scene {
 
 		// spawn demons
 		this.time.addEvent({
-			delay: Phaser.Math.Between(2000, 5000),
+			delay: Phaser.Math.Between(300, 600),
 			callback: () => this.demon.spawn(this),
 			loop: true,
 		});
@@ -113,9 +113,6 @@ export class Game extends Scene {
 				duration: this.calculateSceneDuration(),
 			});
 			return;
-		}
-		if (Phaser.Math.Between(0, 100) < 5) {
-			this.demon.spawn(this);
 		}
 	}
 }
