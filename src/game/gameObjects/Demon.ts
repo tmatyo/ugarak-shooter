@@ -66,11 +66,11 @@ export class Demon extends GameObjects.Container {
 	public spawn(scene: Scene) {
 		const startPoint = this.newCoordinatesInsideCamera(scene);
 		const endPoint = this.newCoordinatesInsideCamera(scene);
-
+        
 		const demon = scene.add
 			.sprite(startPoint.x, startPoint.y, demonImages[Phaser.Math.Between(0, demonImages.length - 1)])
 			.setOrigin(0.5)
-			.setScale(Phaser.Math.Between(0.5, 1.5))
+			.setScale(Phaser.Math.Between(5, 12) / 10)
 			.setInteractive()
 			.on("pointerdown", () => this.onHit(demon))
 			.on("tap", () => this.onHit(demon));
