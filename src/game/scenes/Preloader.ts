@@ -38,7 +38,7 @@ export class Preloader extends Scene {
 		this.load.image("demon8", "src/assets/images/heads/yoko2.png");
 		this.load.image("bullet", "src/assets/images/bullet1.png");
 		this.load.image("cursor", "src/assets/images/cursor2v2.png");
-        
+
 		this.load.image("menuBackground", "src/assets/images/menu_remaster_v3.jpg");
 		this.load.image("gameBackground", "src/assets/images/hatter_remaster.jpg");
 		this.load.image("hudBackground", "src/assets/images/panel_jo.jpg");
@@ -74,6 +74,8 @@ export class Preloader extends Scene {
 		this.load.audio("barking12", "src/assets/sound/barking12.wav");
 		this.load.audio("barking13", "src/assets/sound/barking13.wav");
 		this.load.audio("barking14", "src/assets/sound/barking14.wav");
+
+		this.load.atlas("heads", "src/assets/atlas/ugarak_heads_atlas.png", "src/assets/atlas/ugarak_heads_atlas.json");
 	}
 
 	create() {

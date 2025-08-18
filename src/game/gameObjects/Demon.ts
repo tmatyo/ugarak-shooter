@@ -17,6 +17,7 @@ export class Demon extends GameObjects.Container {
 	private hud: Hud;
 	private gun: Gun;
 	private headShotSounds: Record<string, Sound.BaseSound> = {};
+	private emitter: GameObjects.Particles.ParticleEmitter;
 
 	constructor({ scene, hudHeight = 100, x = 0, y = 0, hud, gun }: DemonPropsType) {
 		super(scene, x, y);
@@ -24,11 +25,24 @@ export class Demon extends GameObjects.Container {
 		this.hud = hud;
 		this.gun = gun;
 		this.createSounds(scene);
+		this.createEmitter(scene);
 	}
 
 	private createSounds(scene: Scene) {
 		demonSounds.forEach((sfx) => {
 			this.headShotSounds[sfx] = scene.sound.add(sfx);
+		});
+	}
+
+	private createEmitter(scene: Scene) {
+		this.emitter = scene.add.particles(0, 0, "heads", {
+			frame: ["szpeti", "en", "dagi", "yoko"],
+			lifespan: 4000,
+			speed: { min: 150, max: 250 },
+			scale: { start: 0.2, end: 0 },
+			gravityY: 150,
+			blendMode: "multiply",
+			emitting: false,
 		});
 	}
 
@@ -50,18 +64,15 @@ export class Demon extends GameObjects.Container {
 		if (magazineIsEmpty) {
 			return;
 		}
-		demon.setTint(0xff0000);
 		this.scene.tweens.killTweensOf(demon);
-		this.scene.time.delayedCall(300, () => {
-			this.headShotSounds[demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]].play({
-				volume: demon.scale * 0.5,
-			});
-			demon.clearTint();
-			demon.destroy();
-			this.hud.incrementScore();
-			this.demons = this.demons.filter((d) => d !== demon);
-			console.log("Demon destroyed, remaining:", this.demons.length);
+		this.emitter.explode(25, demon.x, demon.y);
+		this.headShotSounds[demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]].play({
+			volume: demon.scale * 0.5,
 		});
+		demon.destroy();
+		this.hud.incrementScore();
+		this.demons = this.demons.filter((d) => d !== demon);
+		console.log("Demon destroyed, remaining:", this.demons.length);
 	}
 
 	private isDemonOutOfCamera(demon: GameObjects.Sprite, scene: Scene): boolean {
@@ -103,7 +114,7 @@ export class Demon extends GameObjects.Container {
 			duration: Phaser.Math.Between(1000, 5000),
 			ease: tweenEases[Phaser.Math.Between(0, tweenEases.length - 1)],
 			repeat: -1,
-			yoyo: false,
+			yoyo: true,
 		});
 		this.demons.push(demon);
 		//demon.removeFromDisplayList();
