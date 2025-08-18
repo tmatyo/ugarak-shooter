@@ -8,18 +8,11 @@ export class Preloader extends Scene {
 	}
 
 	init() {
-		//  We loaded this image in our Boot Scene, so we can display it here
-		this.add.image(512, 384, "background");
-
-		//  A simple progress bar. This is the outline of the bar.
-		this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
-
-		//  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-		const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff);
-
-		//  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
+		const { width, height } = this.scale;
+		this.add.image(0, 0, "menuBackground").setOrigin(0, 0).setDisplaySize(width, height);
+		this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffff00);
+		const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffff00);
 		this.load.on("progress", (progress: number) => {
-			//  Update the progress bar (our bar is 464px wide, so 100% = 464px)
 			bar.width = 4 + 460 * progress;
 		});
 	}
@@ -39,7 +32,6 @@ export class Preloader extends Scene {
 		this.load.image("bullet", "src/assets/images/bullet1.png");
 		this.load.image("cursor", "src/assets/images/cursor2v2.png");
 
-		this.load.image("menuBackground", "src/assets/images/menu_remaster_v3.jpg");
 		this.load.image("gameBackground", "src/assets/images/hatter_remaster.jpg");
 		this.load.image("hudBackground", "src/assets/images/panel_jo.jpg");
 
