@@ -1,5 +1,6 @@
 import { Scene, GameObjects } from "phaser";
 import { copyrightTextStyle, copyrightText, titleTextStyle, menuButtonTextStyle } from "../gameData";
+import { addRain } from "../utils/effects";
 
 export class MainMenu extends Scene {
 	constructor() {
@@ -9,6 +10,8 @@ export class MainMenu extends Scene {
 	create() {
 		const { width, height } = this.scale;
 		const sfxHover = this.sound.add("hover");
+		const thunderSound = this.sound.add("thunder", { loop: true, volume: 0.25 });
+		thunderSound.play();
 
 		this.input.once("pointerdown", () => {
 			if (this.sound.locked) {
@@ -29,6 +32,7 @@ export class MainMenu extends Scene {
 			.on("pointerdown", () => {
 				this.scene.stop("MainMenu");
 				this.scene.start("Controls");
+				thunderSound.stop();
 			})
 			.on("pointerover", () => {
 				playButton.setFontSize(bHoverSize);
@@ -44,6 +48,7 @@ export class MainMenu extends Scene {
 			.setOrigin(0, 0)
 			.on("pointerdown", () => {
 				this.scene.start("About");
+				thunderSound.stop();
 			})
 			.on("pointerover", () => {
 				aboutButton.setFontSize(bHoverSize);
@@ -55,5 +60,7 @@ export class MainMenu extends Scene {
 
 		const copyright: GameObjects.Text = this.add.text(0, 0, copyrightText, copyrightTextStyle);
 		copyright.setPosition(width - copyright.width - 20, height - copyright.height - 20);
+
+		addRain(this);
 	}
 }

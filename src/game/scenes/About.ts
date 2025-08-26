@@ -1,16 +1,17 @@
 import { GameObjects, Scene } from "phaser";
 import { buttonTextStyle, plot, titleTextStyle } from "../gameData";
+import { addRain } from "../utils/effects";
 
 export class About extends Scene {
 	constructor() {
 		super("About");
 	}
 
-	preload() {}
-
 	create() {
 		const { width, height } = this.scale;
 		const { padding, textureName, backgroundColor, backgroundOpacity } = plot;
+		const thunderSound = this.sound.add("thunder", { loop: true, volume: 0.25 });
+		thunderSound.play();
 
 		const sfxHover = this.sound.add("hover");
 		this.input.once("pointerdown", () => {
@@ -28,6 +29,7 @@ export class About extends Scene {
 			.setOrigin(1, 1)
 			.setInteractive({ cursor: "pointer" })
 			.on("pointerdown", () => {
+				thunderSound.stop();
 				this.scene.start("Controls");
 			})
 			.on("pointerover", () => {
@@ -43,6 +45,7 @@ export class About extends Scene {
 			.setOrigin(1, 1)
 			.setInteractive({ cursor: "pointer" })
 			.on("pointerdown", () => {
+				thunderSound.stop();
 				this.scene.start("MainMenu");
 			})
 			.on("pointerover", () => {
@@ -65,5 +68,6 @@ export class About extends Scene {
 		text.setPosition(padding, padding);
 
 		this.add.container(30 - padding / 2, 250, [textBackground, text]);
+		addRain(this);
 	}
 }

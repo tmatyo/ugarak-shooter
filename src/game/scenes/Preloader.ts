@@ -67,7 +67,10 @@ export class Preloader extends Scene {
 		this.load.audio("barking13", "src/assets/sound/barking13.wav");
 		this.load.audio("barking14", "src/assets/sound/barking14.wav");
 
+		this.load.audio("thunder", "src/assets/sound/rain-and-thunder-sfx-12820.mp3");
+        
 		this.load.atlas("heads", "src/assets/atlas/ugarak_heads_atlas.png", "src/assets/atlas/ugarak_heads_atlas.json");
+		this.load.atlas("flares", "src/assets/atlas/flares.png", "src/assets/atlas/flares.json");
 	}
 
 	create() {

@@ -1,6 +1,7 @@
 import { GameObjects, Scene, Sound } from "phaser";
 import { demonImages, tweenEases, demonSounds } from "../gameData";
 import { Hud, Gun } from "../gameObjects";
+import { createHeadParticles, createFlameParticles } from "../utils/effects";
 
 type DemonPropsType = {
 	scene: Scene;
@@ -11,9 +12,14 @@ type DemonPropsType = {
 	gun: Gun;
 };
 
+type DemonsInstanceType = {
+	demon: GameObjects.Sprite;
+	flame: GameObjects.Particles.ParticleEmitter;
+};
+
 export class Demon extends GameObjects.Container {
 	private hudHeight: number;
-	private demons: GameObjects.Sprite[] = [];
+	private demons: DemonsInstanceType[] = [];
 	private hud: Hud;
 	private gun: Gun;
 	private headShotSounds: Record<string, Sound.BaseSound> = {};
@@ -25,24 +31,12 @@ export class Demon extends GameObjects.Container {
 		this.hud = hud;
 		this.gun = gun;
 		this.createSounds(scene);
-		this.createEmitter(scene);
+		this.emitter = createHeadParticles(scene);
 	}
 
 	private createSounds(scene: Scene) {
 		demonSounds.forEach((sfx) => {
 			this.headShotSounds[sfx] = scene.sound.add(sfx);
-		});
-	}
-
-	private createEmitter(scene: Scene) {
-		this.emitter = scene.add.particles(0, 0, "heads", {
-			frame: ["szpeti", "en", "dagi", "yoko"],
-			lifespan: 4000,
-			speed: { min: 150, max: 250 },
-			scale: { start: 0.2, end: 0 },
-			gravityY: 150,
-			blendMode: "multiply",
-			emitting: false,
 		});
 	}
 
@@ -64,6 +58,8 @@ export class Demon extends GameObjects.Container {
 		if (magazineIsEmpty) {
 			return;
 		}
+		const demonInstance = this.demons.find((d) => d.demon === demon);
+		demonInstance?.flame.stopFollow();
 		this.scene.tweens.killTweensOf(demon);
 		this.emitter.explode(25, demon.x, demon.y);
 		this.headShotSounds[demonSounds[Phaser.Math.Between(0, demonSounds.length - 1)]].play({
@@ -71,7 +67,7 @@ export class Demon extends GameObjects.Container {
 		});
 		demon.destroy();
 		this.hud.incrementScore();
-		this.demons = this.demons.filter((d) => d !== demon);
+		this.demons = this.demons.filter((d) => d.demon !== demon);
 		console.log("Demon destroyed, remaining:", this.demons.length);
 	}
 
@@ -80,9 +76,9 @@ export class Demon extends GameObjects.Container {
 	}
 
 	private cleanUpDemonsOutOfCamera(scene: Scene) {
-		this.demons = this.demons.filter((demon) => {
-			if (this.isDemonOutOfCamera(demon, scene)) {
-				demon.destroy();
+		this.demons = this.demons.filter((instance) => {
+			if (this.isDemonOutOfCamera(instance.demon, scene)) {
+				instance.demon.destroy();
 				return false;
 			}
 			return true;
@@ -97,6 +93,7 @@ export class Demon extends GameObjects.Container {
 
 		const startPoint = this.newCoordinatesInsideCamera(scene);
 		const endPoint = this.newCoordinatesInsideCamera(scene);
+		const flame = createFlameParticles(scene);
 
 		const demon = scene.add
 			.sprite(startPoint.x, startPoint.y, demonImages[Phaser.Math.Between(0, demonImages.length - 1)])
@@ -105,6 +102,8 @@ export class Demon extends GameObjects.Container {
 			.setInteractive()
 			.on("pointerdown", () => this.onHit(demon))
 			.on("tap", () => this.onHit(demon));
+
+		flame.startFollow(demon);
 
 		scene.physics.add.existing(demon);
 		scene.tweens.add({
@@ -116,11 +115,11 @@ export class Demon extends GameObjects.Container {
 			repeat: -1,
 			yoyo: true,
 		});
-		this.demons.push(demon);
+		this.demons.push({ demon, flame });
 		//demon.removeFromDisplayList();
 	}
 
-	public getDemons(): GameObjects.Sprite[] {
+	public getDemons(): DemonsInstanceType[] {
 		return this.demons;
 	}
 }
