@@ -85,18 +85,18 @@ export class ScoreBoard extends Scene {
 		};
 
 		this.time.addEvent({
-			delay: 2000,
+			delay: 1000,
 			callback: () => renderResults(20 + bulletsShot.x + bulletsShot.width, bulletsShot.y, this.shots.toString()),
 		});
 
 		this.time.addEvent({
-			delay: 3000,
+			delay: 1500,
 			callback: () =>
 				renderResults(20 + pointsEarned.x + pointsEarned.width, pointsEarned.y, this.score.toString()),
 		});
 
 		this.time.addEvent({
-			delay: 4000,
+			delay: 2000,
 			callback: () =>
 				renderResults(
 					20 + successRate.x + successRate.width,
@@ -106,7 +106,7 @@ export class ScoreBoard extends Scene {
 		});
 
 		this.time.addEvent({
-			delay: 5000,
+			delay: 2500,
 			callback: () =>
 				renderResults(
 					20 + shootingSpeed.x + shootingSpeed.width,

@@ -105,7 +105,7 @@ export class Game extends Scene {
 		if (this.camera.scrollX < this.worldWidth - this.scale.width) {
 			this.camera.scrollX += this.speed * (delta / 1000);
 		} else {
-			this.sound.stopAll();
+			//this.sound.stopAll();
 			this.scene.stop("Game");
 			this.scene.start("ScoreBoard", {
 				score: this.hud.getScore(),
