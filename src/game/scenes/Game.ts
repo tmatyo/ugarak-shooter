@@ -8,7 +8,7 @@ export class Game extends Scene {
 	private worldWidth: number;
 	private hud: Hud;
 	private hudHeight: number = 0;
-	private fps: Fps;
+	//private fps: Fps;
 	private gun: Gun;
 	private demon: Demon;
 	private speed: number = 120;
@@ -39,7 +39,7 @@ export class Game extends Scene {
 		this.setupSoundFx();
 
 		// mini hud with FPS
-		this.fps = new Fps(this);
+		//this.fps = new Fps(this);
 
 		// hud with game data
 		this.hud = new Hud(this, 0, this.scale.height - 90);
@@ -101,7 +101,7 @@ export class Game extends Scene {
 	}
 
 	update(time: number, delta: number) {
-		this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
+		//this.fps.updateFps(this.game.loop.actualFps, 1000 / delta);
 		if (this.camera.scrollX < this.worldWidth - this.scale.width) {
 			this.camera.scrollX += this.speed * (delta / 1000);
 		} else {
