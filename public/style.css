@@ -3,6 +3,7 @@ body {
 	padding: 0;
 	color: rgba(255, 255, 255, 0.87);
 	background-color: #0f0f0f;
+	font-family: "Courier New", Courier, monospace;
 }
 
 #app {
@@ -10,6 +11,14 @@ body {
 	height: 100vh;
 	overflow: hidden;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	background-image: url("/src/assets/images/new_site_bg.jpg");
+	background-position: top;
+    background-size: cover;
+}
+
+#app a { 
+	color: #FFDE21;
 }
