@@ -92,7 +92,7 @@ export const tweenEases = [
 	"Elastic",
 	"Bounce",
 ];
-export const crosshairCursor = "url(src/assets/images/cursor2v2.png), crosshair";
+export const crosshairCursor = "url(assets/images/cursor2v2.png), crosshair";
 export const gunSfx = ["shot", "emptygun", "reload"];
 export const demonSounds = ["headshot1", "headshot2", "headshot3", "headshot4", "headshot5"];
 export const evilLaughSounds = ["evil1", "samantas_laugh", "evil2", "killing_streak", "unstoppable"];
