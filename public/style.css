@@ -22,3 +22,7 @@ body {
 #app a { 
 	color: #FFDE21;
 }
+
+#app canvas {
+	box-shadow: 0px 0px 20px #000;
+}
